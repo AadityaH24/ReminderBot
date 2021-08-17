@@ -1,6 +1,6 @@
 
 import os
-from datetime import datetime
+from datetime import datetime, date, time
 import random
 from discord.ext import commands
 import re
@@ -13,12 +13,17 @@ with open('enc.json','rb') as f:
     key = Fernet(os.getenv("FERNETKEY"))
     file_data = key.decrypt(data)
 fireDict = json.loads(file_data)
+
 # Firebase
 import firebase_admin
 from firebase_admin import credentials
 cred = credentials.Certificate(fireDict)
 firebase_admin.initialize_app(cred)
 print("firebase initialized")
+
+#variables
+today_date = date.today()
+
 
 # Bot commands
 bot = commands.Bot(command_prefix='$')
@@ -46,8 +51,10 @@ async def remindSet(ctx):
   my_date = datetime.strptime(match_str_date.group(), '%Y-%m-%d').date()
   match_str_time = re.search(r'\d{2}:\d{2}',msg.content)
   my_time = datetime.strptime(match_str_time.group(), '%H:%M').time()
-  
-  await ctx.send("Date: " + str(my_date) + "  Time: " + str(my_time))
+  if(my_date < today_date):
+    await ctx.send("Invalid Date")
+  else:
+    await ctx.send("Date: " + str(my_date) + "  Time: " + str(my_time))
 
 
 
