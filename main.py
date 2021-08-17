@@ -4,7 +4,6 @@ from datetime import datetime
 import random
 from discord.ext import commands
 import re
-from replit import db
 import json
 from cryptography.fernet import Fernet
 
@@ -29,14 +28,14 @@ async def greeting(ctx):
   response = random.choice(greeting_quotes)
   await ctx.send(response)
 
-@bot.command(name = 'remindme')
-async def reminder(ctx):
-  response = "Set Reminder Time and Date"
-  await ctx.send(response)
+# @bot.command(name = 'yeet')
+# async def reminder(ctx):
+#   response = "Set Reminder Time and Date"
+#   await ctx.send(response)
 
 
-@bot.command(name='input')
-async def getDateTime(ctx):
+@bot.command(name='remindme')
+async def remindSet(ctx):
   await ctx.send("Enter a Time and Date as YYYY-MM-DD hh:mm ")
   def check(msg):
     return msg.author == ctx.author and msg.channel == ctx.channel
@@ -49,6 +48,7 @@ async def getDateTime(ctx):
   my_time = datetime.strptime(match_str_time.group(), '%H:%M').time()
   
   await ctx.send("Date: " + str(my_date) + "  Time: " + str(my_time))
-#sample textasda
+
+
 
 bot.run(os.getenv('TOKEN'))
