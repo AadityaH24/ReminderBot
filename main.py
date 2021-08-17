@@ -4,7 +4,24 @@ from datetime import datetime
 import random
 from discord.ext import commands
 import re
+from replit import db
+import json
+from cryptography.fernet import Fernet
 
+
+with open('enc.json','rb') as f:
+    data = f.read()
+    key = Fernet(os.getenv("FERNETKEY"))
+    file_data = key.decrypt(data)
+fireDict = json.loads(file_data)
+# Firebase
+import firebase_admin
+from firebase_admin import credentials
+cred = credentials.Certificate(fireDict)
+firebase_admin.initialize_app(cred)
+print("firebase initialized")
+
+# Bot commands
 bot = commands.Bot(command_prefix='$')
 @bot.command(name='hello')
 async def greeting(ctx):
