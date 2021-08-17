@@ -68,13 +68,17 @@ async def remindSet(ctx):
     await ctx.send("Invalid Date")
   else:
     await ctx.send("Date: " + str(my_date) + "  Time: " + str(my_time))
-    date_ref.set({
-      str(my_date) : {
-        'alertDateTime' : my_datetime.isoformat(),
-        'alertTitle': my_title
+    date_ref.set(
+      {
+        str(my_date) : 
+        {
+          my_title : 
+          {
+            'alertDateTime' : my_datetime.isoformat(),
+          }
 
-      }
-    })
+        }
+      })
 
 
 
